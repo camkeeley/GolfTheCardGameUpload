@@ -56,7 +56,7 @@ public class Hand {
 	/*
 	 * Remove a card from the hand and then add a card to the hand. Updated to keep track
 	 * of the index of the card being removed, and to add the new card to that index in the
-	 * hand ArrayList.
+	 * hand ArrayList. Also gives the new card the visibility setting of the old card
 	 * @param replace - the card to be replaced
 	 * @param drawn - the card to add to the hand
 	 */
@@ -76,6 +76,19 @@ public class Hand {
 
 		}
 		
+		if(!replace.getVisible())
+		{
+			drawn.setVisible(false);
+			
+		}
+		else
+		{
+			drawn.setVisible(true);
+		}
+		
+		replace.setVisible(true);
+
+		
 		hand.remove(replace);
 		hand.add(indexFinder, drawn);
 
@@ -87,10 +100,22 @@ public class Hand {
 	 */
 	public PlayingCard highestVisible()
 	{
+		/*
+		PlayingCard maxCard = null;
+		for(PlayingCard card: hand)
+		{
+			if(card.value() >= maxCard.value() && card.getVisible())
+			{
+				maxCard = card;
+			}
+		}
+		return maxCard;
+		*/
 		ArrayList<PlayingCard> allCards = new ArrayList<PlayingCard>();
 		allCards.addAll(hand);
 		Collections.sort(allCards);
 		return allCards.get(allCards.size()-1);
+		
 	}
 
 	/**

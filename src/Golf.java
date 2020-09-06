@@ -79,7 +79,7 @@ public class Golf {
 			System.out.println("2: Take Discard");
 			System.out.println("3: Knock");
 			System.out.println("4: Undo the last move");
-			System.out.println("5: Change the opponent's strategy");
+			System.out.println("5: Change the visibility strategy");
 			System.out.print("> ");
 			try {
 				selection = in.nextInt();
@@ -161,6 +161,61 @@ public class Golf {
 		PlayingCard card = deck.draw();
 		return card;
 	}
+	
+	/*
+	 * Allows human to choose a strategy to play with and sets the visibility of cards
+	 * accordingly
+	 */
+	public void chooseStrategy(ArrayList<PlayingCard> playerHand, ArrayList<PlayingCard> computerHand)
+	{
+		System.out.println(" Choose a new game mode!\n 1: No cards visible \n 2: Two cards visible \n 3: All cards visible");
+		Strategy strategyChosen;
+		
+		Scanner in = new Scanner(System.in);
+		boolean valid = false;
+		
+		int stratNumber = 0;
+		
+		while(!valid)
+		{
+			try {
+				stratNumber = in.nextInt();
+
+				in.nextLine();
+				if ((stratNumber > 0) && (stratNumber <= 3))
+				{
+					valid = true;
+				}
+			}
+			//this will catch the mismatch and prevent the error
+			catch(InputMismatchException ex)
+			{
+				//still need to gobble up the end of line
+				in.nextLine();
+			}
+			if (!valid)
+			{
+				System.out.println("Invalid entry -- enter a number between 1 and 3");
+			}
+		}
+		
+		
+		switch(stratNumber)
+		{
+			case 1: strategyChosen = new NoCardsVisibleStrategy();
+			break;
+			case 2: strategyChosen = new TwoCardsVisibleStrategy();
+			break;
+			case 3: strategyChosen = new AllCardsVisibleStrategy();
+			break;
+				
+			default:strategyChosen = null;
+		}
+		
+		strategyChosen.setVisibility(playerHand);
+		strategyChosen.setVisibility(computerHand);
+
+	}
 
 	/*
 	 * Allow player to decide which card they want to discard from the cards they have, 
@@ -183,6 +238,9 @@ public class Golf {
 		int max = canPass ? cardOptions.size()+1 : cardOptions.size();
 		PlayingCard choice = null;
 		System.out.println(prompt);
+		
+		
+		//Strategy.setVisibility(cardOptions);
 		while (!valid)
 		{
 			for (PlayingCard card : cardOptions)
@@ -274,10 +332,24 @@ public class Golf {
 			human.draw(deck);
 			computer.draw(deck);
 		}
+		
+		/*
+		 * Strategy implementation:
+		 * Step 1. Ask the player what game mode they would like, and return an instance of the strategy
+		 * Step 2. Use the Strategy to set the visibilities of the player's and Computer's Hands.
+		 * Step 3. Update the draw and decision-making methods for the hands to account for card visibility
+		 * Step 4. Update the change strategy option to switch visibilities of the hands based on the selection 
+		 * of new strategies.
+		 * Step 5. You're done!
+		 */
 
-
+		//Step 1:
+		chooseStrategy(human.getHand(), computer.getHand());
+		
 		boolean playerTurn = true;
+		
 		System.out.println(human);
+		System.out.println(computer);
 
 		discards.addCard(drawCards("", deck ));
 		System.out.println("Discarded: " + discards.getTop());
@@ -331,7 +403,7 @@ public class Golf {
 					System.out.println("Undo is not implemented!");
 					break;
 				case CHANGE_STRATEGY:
-					System.out.println("Strategy change is not implemented!");
+					chooseStrategy(human.getHand(), computer.getHand());
 					break;	
 				}
 				System.out.println(human);

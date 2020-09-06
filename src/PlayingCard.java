@@ -28,6 +28,8 @@ public class PlayingCard implements Comparable {
 	
 	private String suit;
 	private int type;
+	
+	private boolean visible = true;
 
 	public PlayingCard(String suit, int type) {
 		super();
@@ -46,11 +48,17 @@ public class PlayingCard implements Comparable {
 	
 	/**
 	 * Given a name, or partially spelled out name, gets the value
+	 * Kings should score 0!
 	 * @param name - a string such as "ace" or "aces"
 	 * @return - the integer value or INVALID
 	 */
 	public static int determineType(String name)
 	{
+		if(name.toLowerCase().contains("king"))
+		{
+			return 0;
+		}
+
 		for (int i=1; i < types.length; i ++)
 		{
 			if (name.toLowerCase().contains(types[i].toLowerCase()))
@@ -144,12 +152,42 @@ public class PlayingCard implements Comparable {
 		}
 	}
 
+	/*
+	 * sets the visibility of this PlayingCard instance, used by strategy method setVisibility
+	 */
+	public void setVisible(boolean isVisible) 
+	{
+		this.visible = isVisible;
+	}
+	
+	public boolean getVisible()
+	{
+		if(visible)
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * Returns a string version of the card to use when printing
 	 */
 	public String toString()
 	{
-		return types[type] + " of " + suit;
+		if(visible)
+		{
+			return types[type] + " of " + suit;
+
+		}
+		else
+		{
+			return "Facedown Card";
+		}
 	}
+
+	
 	
 }
