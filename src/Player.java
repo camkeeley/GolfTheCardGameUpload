@@ -21,6 +21,10 @@ public class Player {
 		myHand = new Hand();
 	}
 	
+	/*
+	 * Get the player's name
+	 * @return the player's name
+	 */
 	public String getName()
 	{
 		return this.name;
@@ -51,13 +55,18 @@ public class Player {
 	
 	/**
 	 * Puts a card back in the player's hand
-	 * @param card the card being added
+	 * @param drawn the card being added
+	 * @param replace the card being replaced
 	 */
 	public void replaceCard(PlayingCard replace, PlayingCard drawn)
 	{
 		myHand.replaceCard(replace, drawn);
 	}
 	
+	/*
+	 * Get the full hand
+	 * @return the cards in the hand as an ArrayList<PlayCard>
+	 */
 	public ArrayList<PlayingCard> getHand() {
 		return myHand.getCards();
 	}
@@ -72,7 +81,10 @@ public class Player {
 		myHand.addCards(newCards);
 	}
 	
-	
+	/*
+	 * Calculate the score of the player's hand
+	 * @return the score of the player's hand
+	 */
 	public int calculateScore()
 	{
 		return myHand.scoreHand();
@@ -87,6 +99,14 @@ public class Player {
 		return myHand.randomChoice();
 	}
 	
+	/*
+	 * Make a best choice about whether to replace a card, and if so which card
+	 * to replace. 
+	 * @param possibleReplacement - the PlayingCard which is being considered as 
+	 * a replacement for a card in the hand.
+	 * @return either the card in the hand which should be replaced, or return null
+	 * to indicate that no card should be replaced.
+	 */
 	public PlayingCard bestChoice(PlayingCard possibleReplacement)
 	{
 		PlayingCard highest = myHand.highestVisible();

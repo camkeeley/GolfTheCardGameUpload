@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Random;
 
@@ -8,8 +9,10 @@ import java.util.Random;
  *
  */
 public class Hand {
+	//re-named "cards" to hand to indicate more clearly that the variable represents a hand of cards
+	private ArrayList<PlayingCard> hand;
 	
-	private ArrayList<PlayingCard> cards;
+	
 	private Random randomGenerator = new Random();
 
 	/**
@@ -17,7 +20,7 @@ public class Hand {
 	 */
 	public Hand() {
 		super();
-		cards = new ArrayList<PlayingCard>();
+		hand = new ArrayList<PlayingCard>();
 	}
 	
 	/**
@@ -26,39 +29,66 @@ public class Hand {
 	 */
 	public int numCards() 
 	{
-		return cards.size();
+		return hand.size();
 	}
 	
 	/**
-	 * Adds a new card to the hand and sorts it
+	 * Adds a new card to the hand
 	 * @param newcard - card being added
 	 */
 	public void addCard(PlayingCard newcard)
 	{
-		cards.add(newcard);
+		hand.add(newcard);
 //		Collections.sort(cards);
 	}
 	
-
+	/*
+	 * Adds all passed-in cards to the hand
+	 * @param newCards - new cards being passed in to the hand
+	 */
 	public void addCards(ArrayList<PlayingCard> newCards)
 	{
-		cards.addAll(newCards);
+		hand.addAll(newCards);
 
 	}
 	
 
-	
+	/*
+	 * Remove a card from the hand and then add a card to the hand. Updated to keep track
+	 * of the index of the card being removed, and to add the new card to that index in the
+	 * hand ArrayList.
+	 * @param replace - the card to be replaced
+	 * @param drawn - the card to add to the hand
+	 */
 	public void replaceCard(PlayingCard replace, PlayingCard drawn)
 	{
-		cards.remove(replace);
-		cards.add(drawn);
+		int indexReplaced;
+		int indexFinder = 0;
+		
+		for(PlayingCard card: hand)
+		{
+			if(card == replace)
+			{
+				indexReplaced = indexFinder;
+				break;
+			}
+			indexFinder++;
+
+		}
+		
+		hand.remove(replace);
+		hand.add(indexFinder, drawn);
 
 	}
 	
+	/*
+	 * Gets the highest visible card in the hand
+	 * @return the highest visible card
+	 */
 	public PlayingCard highestVisible()
 	{
 		ArrayList<PlayingCard> allCards = new ArrayList<PlayingCard>();
-		allCards.addAll(cards);
+		allCards.addAll(hand);
 		Collections.sort(allCards);
 		return allCards.get(allCards.size()-1);
 	}
@@ -68,13 +98,17 @@ public class Hand {
 	 * @return the list of cards
 	 */
 	public ArrayList<PlayingCard> getCards() {
-		return cards;
+		return hand;
 	}
 	
+	/*
+	 * Adds up the values of the cards in the hands to find the hand's score
+	 * @return the score of the hand
+	 */
 	public int scoreHand()
 	{
 		int score = 0;
-		for (PlayingCard card: cards)
+		for (PlayingCard card: hand)
 		{
 			score += card.value();
 		}
@@ -86,8 +120,8 @@ public class Hand {
 	 */
 	public PlayingCard randomChoice()
 	{
-		int choice = randomGenerator.nextInt(cards.size());
-		return cards.get(choice);
+		int choice = randomGenerator.nextInt(hand.size());
+		return hand.get(choice);
 	}
 	
 	/**
@@ -96,7 +130,7 @@ public class Hand {
 	public String toString()
 	{
 		String allCards = "";
-		for (PlayingCard card : cards)
+		for (PlayingCard card : hand)
 		{
 			allCards += card.toString() + "\n";
 		}

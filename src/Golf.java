@@ -18,6 +18,8 @@ public class Golf {
 	public static final int UNDO_MOVE = 4;
 	public static final int CHANGE_STRATEGY = 5;
 
+	//added a named constant to indicate the computer's target score
+	public static final int TARGET_SCORE = 20;
 
 
 	private boolean humanKnock = false;
@@ -345,7 +347,7 @@ public class Golf {
 				//Computer's turn!
 
 				System.out.println("\nComputer's Turn\n");
-				if (computer.calculateScore() <= 20)
+				if (computer.calculateScore() <= TARGET_SCORE)
 				{
 					computerKnock = true;
 					System.out.println("Computer is knocking");

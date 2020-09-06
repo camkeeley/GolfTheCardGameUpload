@@ -6,6 +6,9 @@
  */
 public class PlayingCard implements Comparable {
 	
+	//Added this named constant which represents the maximum value a card can have.
+	public static final int MAX_VALUE = 10;
+	
 	public static int MIN = 1;
 	public static int MAX = 13; 
 	public static int INVALID = -1;
@@ -74,18 +77,22 @@ public class PlayingCard implements Comparable {
 	
 	/**
 	 * This assumes that an Ace will have a value of 1
-	 * @return
+	 * @return the value of the card
 	 */
 	public int value()
 	{
-		if (type >= 10)
+		if (type >= MAX_VALUE)
 		{
 			return 10;
 		}
 		return type;
 	}
 	
-
+	/*
+	 * Determines whether a passed in card has 
+	 * the same value as this card
+	 * @return true if the same value, false if not the same value.
+	 */
 	public boolean equalsType(int type) {
 		return this.type == type;
 	}
@@ -111,6 +118,11 @@ public class PlayingCard implements Comparable {
 	
 	/**
 	 * Compares two playing cards. Again, notice that it takes in an Object.
+	 * @return an int value corresponding to the result of the comparison:
+	 * -100 if object is null or not an instance of PlayingCard
+	 * -1 if the passed in card is greater than this card
+	 * 0 if the two cards are equal
+	 * 1 if this card is greater than the passed in card
 	 */
 	public int compareTo(Object o) {
 		if ((o == null) || (!(o instanceof PlayingCard)))
