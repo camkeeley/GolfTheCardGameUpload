@@ -160,6 +160,14 @@ public class Golf {
 		return card;
 	}
 
+	/*
+	 * Allow player to decide which card they want to discard from the cards they have, 
+	 * and if they are allowed to pass, they can discard the drawn card as well.
+	 * @param prompt- Ask the player to select a card
+	 * @param cardOptions - the different cards the player can discard
+	 * @param canPass - whether the player is allowed to keep all their original cards
+	 * @return the PlayingCard which was discarded.
+	 */
 	private PlayingCard makeCardChoice(String prompt, ArrayList<PlayingCard> cardOptions, boolean canPass)
 	{
 		if (cardOptions.size() == 0)
